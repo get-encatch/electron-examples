@@ -1,0 +1,24 @@
+/*
+ * Electron-only chrome. The main window uses titleBarStyle "hiddenInset" on macOS
+ * (see src/main/index.ts), which overlays the traffic-light window controls directly
+ * on top of the content instead of reserving space for them — and removes the OS
+ * drag region entirely. This reserves a thin strip so nothing sits under the lights
+ * and the window can still be dragged by its top edge.
+ */
+
+.electron-chrome {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.electron-chrome__drag-region {
+  height: 38px;
+  flex-shrink: 0;
+  -webkit-app-region: drag;
+}
+
+.electron-chrome__content {
+  flex: 1;
+  min-height: 0;
+}
