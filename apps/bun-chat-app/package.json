@@ -1,0 +1,27 @@
+{
+  "name": "@encatch/bun-chat-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bun-based shell for the same @encatch/core + @encatch/ui chat app (browser client + Bun.serve backend)",
+  "scripts": {
+    "dev": "bun --hot run src/server/index.ts",
+    "build": "bun build ./src/server/index.ts --target=bun --outdir=dist",
+    "start": "NODE_ENV=production bun run dist/index.js",
+    "lint": "echo \"TODO: lint\"",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@encatch/core": "workspace:*",
+    "@encatch/ui": "workspace:*",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@types/bun": "^1.3.4",
+    "rimraf": "^6.1.3",
+    "typescript": "^7.0.2"
+  }
+}

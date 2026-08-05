@@ -10,7 +10,9 @@
   },
   "scripts": {
     "dev": "pnpm --filter @encatch/chat-app dev",
+    "dev:bun": "pnpm --filter @encatch/bun-chat-app dev",
     "build": "pnpm -r --filter=./packages/* build && pnpm --filter @encatch/chat-app build",
+    "build:bun": "pnpm -r --filter=./packages/* build && pnpm --filter @encatch/bun-chat-app build",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
     "clean": "pnpm -r clean"
