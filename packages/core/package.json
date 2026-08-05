@@ -1,0 +1,21 @@
+{
+  "name": "@encatch/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI chat logic: model clients, session/state management, tool orchestration",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "echo \"TODO: build package\"",
+    "lint": "echo \"TODO: lint\"",
+    "typecheck": "echo \"TODO: typecheck\"",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.115.0"
+  },
+  "devDependencies": {
+    "rimraf": "^6.1.3",
+    "typescript": "^7.0.2"
+  }
+}

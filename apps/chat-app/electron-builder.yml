@@ -1,0 +1,35 @@
+appId: com.encatch.chat-app
+productName: Encatch
+directories:
+  buildResources: build
+  output: dist
+files:
+  - out/**/*
+  - "!**/*.{ts,map}"
+asarUnpack:
+  - "**/*.node"
+
+mac:
+  category: public.app-category.productivity
+  target:
+    - target: dmg
+      arch: [x64, arm64]
+    - target: zip
+      arch: [x64, arm64]
+
+linux:
+  category: Office
+  target:
+    - target: AppImage
+      arch: [x64, arm64]
+    - target: deb
+      arch: [x64, arm64]
+
+win:
+  target:
+    - target: nsis
+      arch: [x64, arm64]
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
