@@ -11,8 +11,10 @@
   "scripts": {
     "dev": "pnpm --filter @encatch/chat-app dev",
     "dev:bun": "pnpm --filter @encatch/bun-chat-app dev",
+    "dev:tauri": "pnpm --filter @encatch/tauri-chat-app tauri:dev",
     "build": "pnpm -r --filter=./packages/* build && pnpm --filter @encatch/chat-app build",
     "build:bun": "pnpm -r --filter=./packages/* build && pnpm --filter @encatch/bun-chat-app build",
+    "build:tauri": "pnpm -r --filter=./packages/* build && pnpm --filter @encatch/tauri-chat-app tauri:build",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
     "clean": "pnpm -r clean"
