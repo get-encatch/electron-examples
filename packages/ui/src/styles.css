@@ -126,6 +126,55 @@ textarea {
   flex-direction: column;
   padding: 12px;
   flex-shrink: 0;
+  overflow: hidden;
+  transition: width 0.16s ease, min-width 0.16s ease, padding 0.16s ease;
+}
+
+.sidebar--collapsed {
+  width: 0;
+  min-width: 0;
+  max-width: 0;
+  padding-left: 0;
+  padding-right: 0;
+  border-right: none;
+}
+
+/* Narrow window: the sidebar becomes a slide-over sheet above the chat instead of
+   pushing content around, with a backdrop to dismiss it. */
+.sidebar--sheet {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 50;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.18s ease;
+}
+
+.sidebar--sheet.sidebar--collapsed {
+  width: 260px;
+  min-width: 220px;
+  max-width: 320px;
+  padding: 12px;
+  border-right: none;
+  transform: translateX(-100%);
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 40;
+  animation: sidebar-backdrop-in 0.15s ease;
+}
+
+@keyframes sidebar-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .sidebar__header {
@@ -135,6 +184,23 @@ textarea {
   padding: 8px 8px 16px;
 }
 
+.sidebar__collapse-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  color: var(--sidebar-fg-muted);
+  padding: 6px;
+  flex-shrink: 0;
+}
+
+.sidebar__collapse-btn:hover {
+  background: var(--sidebar-hover);
+  color: var(--sidebar-fg);
+}
+
 .sidebar__brand-mark {
   color: var(--accent);
   font-size: 16px;
@@ -142,6 +208,7 @@ textarea {
 }
 
 .sidebar__brand {
+  flex: 1;
   font-weight: 600;
   font-size: 15px;
   letter-spacing: 0.2px;
@@ -467,12 +534,36 @@ textarea {
   min-height: 24px;
 }
 
+.chat-view__header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
 .chat-view__header-title {
   font-size: 14px;
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  color: var(--text-muted);
+  padding: 6px;
+}
+
+.sidebar-toggle:hover {
+  background: var(--surface-hover);
+  color: var(--main-fg);
 }
 
 .chat-view__header-feedback {
@@ -1012,8 +1103,13 @@ textarea {
   margin-bottom: 24px;
 }
 
+.settings-page__header-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .settings-page__back {
-  align-self: flex-start;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -1245,14 +1341,11 @@ textarea {
   color: var(--accent-fg);
 }
 
-/* Tablet / narrow window */
+/* Tablet / narrow window — the sidebar itself switches to a sheet via JS state
+   (see App.tsx's matchMedia effect) at the same breakpoint; this just lets the
+   chat content use the full width once the sidebar is no longer pushing it over. */
 
 @media (max-width: 820px) {
-  .sidebar {
-    width: 220px;
-    min-width: 200px;
-  }
-
   .chat-view__messages,
   .composer__box,
   .composer__hint {

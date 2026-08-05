@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react"
+import { PanelLeftOpen } from "lucide-react"
 import type { Chat, FeedbackRating, Message, NavUser } from "@encatch/core"
 import { useChatApi } from "./context/ApiContext"
 import { ThemeProvider } from "./context/ThemeContext"
@@ -20,6 +21,9 @@ export function App() {
   const [isThinking, setIsThinking] = useState(false)
   const [streamingMessageId, setStreamingMessageId] = useState<string | null>(null)
   const [feedbackModal, setFeedbackModal] = useState<FeedbackModalState | null>(null)
+  const isNarrowViewport = () => typeof window !== "undefined" && window.innerWidth < 760
+  const [isNarrow, setIsNarrow] = useState(isNarrowViewport)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(isNarrowViewport)
 
   /** Bumped on every send/edit and on stop, so a late-resolving request can detect it was superseded. */
   const requestIdRef = useRef(0)
@@ -28,6 +32,20 @@ export function App() {
     api.listChats().then(setChats)
     api.getNavUser().then(setNavUser)
   }, [api])
+
+  // Below the breakpoint the sidebar becomes a slide-over sheet (starts closed) instead of
+  // an inline column; crossing back above it restores the normal inline layout (always shown).
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 760px)")
+    const handleChange = (event: MediaQueryListEvent) => {
+      setIsNarrow(event.matches)
+      setSidebarCollapsed(event.matches)
+    }
+    query.addEventListener("change", handleChange)
+    return () => query.removeEventListener("change", handleChange)
+  }, [])
+
+  const toggleSidebar = useCallback(() => setSidebarCollapsed((collapsed) => !collapsed), [])
 
   const selectChat = useCallback(
     (chatId: string) => {
@@ -193,6 +211,8 @@ export function App() {
           chats={chats}
           activeChatId={activeChatId}
           navUser={navUser}
+          collapsed={sidebarCollapsed}
+          sheet={isNarrow}
           onNewChat={startNewChat}
           onSelectChat={selectChat}
           onDeleteChat={deleteChat}
@@ -201,7 +221,12 @@ export function App() {
           onRenameChat={renameChat}
           onOpenSettings={() => setView("settings")}
           onGiveAppFeedback={() => setFeedbackModal({ scope: "app" })}
+          onToggleCollapse={toggleSidebar}
         />
+
+        {isNarrow && !sidebarCollapsed && (
+          <div className="sidebar-backdrop" onClick={toggleSidebar} />
+        )}
 
         <main className="app-main">
           {view === "settings" ? (
@@ -209,13 +234,27 @@ export function App() {
               navUser={navUser}
               onBack={() => setView("chat")}
               onChatUnarchived={unarchiveChat}
+              sidebarCollapsed={sidebarCollapsed}
+              onExpandSidebar={toggleSidebar}
             />
           ) : (
             <>
               <div className="chat-view__header">
-                <span className="chat-view__header-title">
-                  {chats.find((c) => c.id === activeChatId)?.title ?? "New chat"}
-                </span>
+                <div className="chat-view__header-left">
+                  {sidebarCollapsed && (
+                    <button
+                      type="button"
+                      className="sidebar-toggle"
+                      onClick={toggleSidebar}
+                      aria-label="Expand sidebar"
+                    >
+                      <PanelLeftOpen size={16} />
+                    </button>
+                  )}
+                  <span className="chat-view__header-title">
+                    {chats.find((c) => c.id === activeChatId)?.title ?? "New chat"}
+                  </span>
+                </div>
                 {activeChatId && (
                   <button
                     type="button"

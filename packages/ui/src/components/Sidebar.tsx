@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react"
-import { Plus, Search, Sparkles } from "lucide-react"
+import { PanelLeftClose, Plus, Search, Sparkles } from "lucide-react"
 import type { Chat, NavUser } from "@encatch/core"
 import { ChatHistoryList } from "./ChatHistoryList"
 import { UserNav } from "./UserNav"
@@ -8,6 +8,9 @@ interface SidebarProps {
   chats: Chat[]
   activeChatId: string | null
   navUser: NavUser
+  collapsed: boolean
+  /** Narrow window: render as a slide-over sheet with a backdrop instead of an inline column. */
+  sheet: boolean
   onNewChat: () => void
   onSelectChat: (chatId: string) => void
   onDeleteChat: (chatId: string) => void
@@ -16,12 +19,15 @@ interface SidebarProps {
   onRenameChat: (chatId: string, title: string) => void
   onOpenSettings: () => void
   onGiveAppFeedback: () => void
+  onToggleCollapse: () => void
 }
 
 export function Sidebar({
   chats,
   activeChatId,
   navUser,
+  collapsed,
+  sheet,
   onNewChat,
   onSelectChat,
   onDeleteChat,
@@ -29,7 +35,8 @@ export function Sidebar({
   onArchiveChat,
   onRenameChat,
   onOpenSettings,
-  onGiveAppFeedback
+  onGiveAppFeedback,
+  onToggleCollapse
 }: SidebarProps) {
   const [query, setQuery] = useState("")
 
@@ -39,14 +46,38 @@ export function Sidebar({
     return chats.filter((c) => c.title.toLowerCase().includes(q))
   }, [chats, query])
 
+  // As a sheet, picking a chat (or starting a new one) should close the drawer like a mobile UI.
+  const closeIfSheet = () => {
+    if (sheet) onToggleCollapse()
+  }
+
+  const className =
+    "sidebar" + (sheet ? " sidebar--sheet" : "") + (collapsed ? " sidebar--collapsed" : "")
+
   return (
-    <aside className="sidebar">
+    <aside className={className} aria-hidden={collapsed}>
       <div className="sidebar__header">
         <Sparkles className="sidebar__brand-mark" size={16} aria-hidden />
         <span className="sidebar__brand">Encatch</span>
+        <button
+          type="button"
+          className="sidebar__collapse-btn"
+          onClick={onToggleCollapse}
+          aria-label="Collapse sidebar"
+          tabIndex={collapsed ? -1 : 0}
+        >
+          <PanelLeftClose size={16} />
+        </button>
       </div>
 
-      <button type="button" className="sidebar__new-chat" onClick={onNewChat}>
+      <button
+        type="button"
+        className="sidebar__new-chat"
+        onClick={() => {
+          onNewChat()
+          closeIfSheet()
+        }}
+      >
         <Plus className="sidebar__new-chat-icon" size={16} aria-hidden />
         New chat
       </button>
@@ -69,7 +100,10 @@ export function Sidebar({
         <ChatHistoryList
           chats={filteredChats}
           activeChatId={activeChatId}
-          onSelect={onSelectChat}
+          onSelect={(chatId) => {
+            onSelectChat(chatId)
+            closeIfSheet()
+          }}
           onDelete={onDeleteChat}
           onTogglePin={onTogglePinChat}
           onArchive={onArchiveChat}

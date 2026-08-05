@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { ArrowLeft, ArchiveRestore, Trash2 } from "lucide-react"
+import { ArchiveRestore, ArrowLeft, PanelLeftOpen, Trash2 } from "lucide-react"
 import type { Chat, NavUser } from "@encatch/core"
 import { useChatApi } from "../context/ApiContext"
 import { useTheme, type ThemePreference } from "../context/ThemeContext"
@@ -8,6 +8,8 @@ interface SettingsPageProps {
   navUser: NavUser
   onBack: () => void
   onChatUnarchived: (chatId: string) => void
+  sidebarCollapsed: boolean
+  onExpandSidebar: () => void
 }
 
 const THEME_OPTIONS: { value: ThemePreference; label: string }[] = [
@@ -16,7 +18,13 @@ const THEME_OPTIONS: { value: ThemePreference; label: string }[] = [
   { value: "dark", label: "Dark" }
 ]
 
-export function SettingsPage({ navUser, onBack, onChatUnarchived }: SettingsPageProps) {
+export function SettingsPage({
+  navUser,
+  onBack,
+  onChatUnarchived,
+  sidebarCollapsed,
+  onExpandSidebar
+}: SettingsPageProps) {
   const api = useChatApi()
   const { theme, setTheme } = useTheme()
   const [archivedChats, setArchivedChats] = useState<Chat[]>([])
@@ -42,9 +50,21 @@ export function SettingsPage({ navUser, onBack, onChatUnarchived }: SettingsPage
   return (
     <div className="settings-page">
       <div className="settings-page__header">
-        <button type="button" className="settings-page__back" onClick={onBack}>
-          <ArrowLeft size={14} /> Back to chat
-        </button>
+        <div className="settings-page__header-row">
+          {sidebarCollapsed && (
+            <button
+              type="button"
+              className="sidebar-toggle"
+              onClick={onExpandSidebar}
+              aria-label="Expand sidebar"
+            >
+              <PanelLeftOpen size={16} />
+            </button>
+          )}
+          <button type="button" className="settings-page__back" onClick={onBack}>
+            <ArrowLeft size={14} /> Back to chat
+          </button>
+        </div>
         <h1>Settings</h1>
       </div>
 
