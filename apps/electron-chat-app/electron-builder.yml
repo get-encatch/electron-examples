@@ -10,6 +10,7 @@ asarUnpack:
   - "**/*.node"
 
 mac:
+  icon: build/icon.png
   category: public.app-category.productivity
   target:
     - target: dmg
@@ -18,6 +19,7 @@ mac:
       arch: [x64, arm64]
 
 linux:
+  icon: build/icon.png
   category: Office
   target:
     - target: AppImage
@@ -26,6 +28,7 @@ linux:
       arch: [x64, arm64]
 
 win:
+  icon: build/icon.png
   target:
     - target: nsis
       arch: [x64, arm64]

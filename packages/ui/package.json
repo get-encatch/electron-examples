@@ -13,7 +13,10 @@
   },
   "dependencies": {
     "@encatch/core": "workspace:*",
-    "lucide-react": "^1.28.0"
+    "@encatch/web-sdk": "^1.5.0",
+    "@t3-oss/env-core": "^0.13.11",
+    "lucide-react": "^1.28.0",
+    "zod": "^4.4.3"
   },
   "peerDependencies": {
     "react": "^19.2.8",

@@ -7,6 +7,8 @@ import { Sidebar } from "./components/Sidebar"
 import { ChatView } from "./components/ChatView"
 import { SettingsPage } from "./components/SettingsPage"
 import { FeedbackModal, type FeedbackModalState } from "./components/FeedbackModal"
+import { EncatchThemeBridge } from "./encatch/EncatchThemeBridge"
+import { identifyEncatchUser, showAppFeedbackForm } from "./encatch/sdk"
 
 type View = "chat" | "settings"
 
@@ -32,6 +34,10 @@ export function App() {
     api.listChats().then(setChats)
     api.getNavUser().then(setNavUser)
   }, [api])
+
+  useEffect(() => {
+    if (navUser) identifyEncatchUser(navUser)
+  }, [navUser])
 
   // Below the breakpoint the sidebar becomes a slide-over sheet (starts closed) instead of
   // an inline column; crossing back above it restores the normal inline layout (always shown).
@@ -206,6 +212,7 @@ export function App() {
 
   return (
     <ThemeProvider>
+      <EncatchThemeBridge />
       <div className="app-shell">
         <Sidebar
           chats={chats}
@@ -220,7 +227,7 @@ export function App() {
           onArchiveChat={archiveChat}
           onRenameChat={renameChat}
           onOpenSettings={() => setView("settings")}
-          onGiveAppFeedback={() => setFeedbackModal({ scope: "app" })}
+          onGiveAppFeedback={showAppFeedbackForm}
           onToggleCollapse={toggleSidebar}
         />
 

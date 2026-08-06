@@ -5,6 +5,8 @@ import { openDatabase } from "./db"
 import { createChatApi } from "./chatApi"
 import { registerChatApiIpc } from "./ipc"
 
+const devIconPath = join(__dirname, "../../build/icon.png")
+
 function createWindow(): void {
   const window = new BrowserWindow({
     width: 1180,
@@ -13,6 +15,7 @@ function createWindow(): void {
     minHeight: 520,
     show: false,
     autoHideMenuBar: true,
+    icon: is.dev ? devIconPath : undefined,
     titleBarStyle: process.platform === "darwin" ? "hiddenInset" : "default",
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
@@ -36,6 +39,10 @@ function createWindow(): void {
 
 app.whenReady().then(() => {
   electronApp.setAppUserModelId("com.encatch.electron-chat-app")
+
+  if (is.dev && process.platform === "darwin") {
+    app.dock?.setIcon(devIconPath)
+  }
 
   app.on("browser-window-created", (_event, window) => {
     optimizer.watchWindowShortcuts(window)

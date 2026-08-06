@@ -1,7 +1,15 @@
 import { useEffect, useRef, useState } from "react"
 import { ChevronDown } from "lucide-react"
 
-const FAKE_MODELS = ["Claude Opus 5", "Claude Sonnet 5", "Claude Haiku 4.5"]
+const FAKE_MODELS = [
+  "GPT 5.2",
+  "Claude Sonnet 5",
+  "Gemini 3 Pro",
+  "Grok 4",
+  "Llama 4 Maverick",
+  "Mistral Large",
+  "DeepSeek V3"
+]
 
 export function ModelSelector() {
   const [open, setOpen] = useState(false)
