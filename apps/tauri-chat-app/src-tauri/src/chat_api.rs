@@ -8,7 +8,7 @@ use crate::models::{Chat, Feedback, FeedbackInput, Message, MessageRole, NavUser
 use crate::title::derive_chat_title;
 
 /// Implements the shared ChatApi contract over rusqlite. Mirrors
-/// apps/chat-app/src/main/chatApi.ts and apps/bun-chat-app/src/server/chatApi.ts
+/// apps/electron-chat-app/src/main/chatApi.ts and apps/bun-chat-app/src/server/chatApi.ts
 /// row-for-row — same SQL shape, translated to Rust since this runs in the Tauri
 /// Rust backend rather than a JS runtime that could import @encatch/core directly.
 struct ChatRow {

@@ -255,15 +255,6 @@ export function App() {
                     {chats.find((c) => c.id === activeChatId)?.title ?? "New chat"}
                   </span>
                 </div>
-                {activeChatId && (
-                  <button
-                    type="button"
-                    className="chat-view__header-feedback"
-                    onClick={() => setFeedbackModal({ scope: "conversation", chatId: activeChatId })}
-                  >
-                    Give feedback
-                  </button>
-                )}
               </div>
               <ChatView
                 navUser={navUser}

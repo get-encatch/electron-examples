@@ -48,7 +48,7 @@ const NAV_USER: NavUser = { name: "Godwin", planLabel: "Encatch Concept Plan" }
 
 /**
  * Implements the shared ChatApi contract over bun:sqlite. Runs inside the Bun server process
- * — same contract and SQL shape as apps/chat-app/src/main/chatApi.ts, just a different SQLite driver.
+ * — same contract and SQL shape as apps/electron-chat-app/src/main/chatApi.ts, just a different SQLite driver.
  */
 export function createChatApi(db: Database): ChatApi {
   const getChatRow = (chatId: string): ChatRow => {

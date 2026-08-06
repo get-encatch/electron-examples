@@ -35,7 +35,7 @@ function createWindow(): void {
 }
 
 app.whenReady().then(() => {
-  electronApp.setAppUserModelId("com.encatch.chat-app")
+  electronApp.setAppUserModelId("com.encatch.electron-chat-app")
 
   app.on("browser-window-created", (_event, window) => {
     optimizer.watchWindowShortcuts(window)

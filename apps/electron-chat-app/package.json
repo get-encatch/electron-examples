@@ -1,5 +1,5 @@
 {
-  "name": "@encatch/chat-app",
+  "name": "@encatch/electron-chat-app",
   "version": "0.1.0",
   "private": true,
   "description": "Electron-based AI chat application (Codex-style UI)",

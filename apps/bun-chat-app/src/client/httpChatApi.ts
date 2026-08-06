@@ -12,7 +12,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 /**
  * Implements the shared ChatApi contract over fetch against the Bun server's REST routes.
- * This is the browser-shell analogue of apps/chat-app/src/preload/index.ts.
+ * This is the browser-shell analogue of apps/electron-chat-app/src/preload/index.ts.
  */
 export const httpChatApi: ChatApi = {
   listChats: () => request("/chats"),

@@ -4,7 +4,7 @@ import { SizeHint, Webview } from "webview-bun"
  * Desktop entry point: the Bun.serve backend runs on a worker thread (webview.run()
  * blocks the main thread with its native event loop), and a native webview window
  * navigates to it once it's listening. Same @encatch/core + @encatch/ui as the
- * browser shell — only the window chrome and transport differ from apps/chat-app.
+ * browser shell — only the window chrome and transport differ from apps/electron-chat-app.
  */
 const worker = new Worker(new URL("./server-worker.ts", import.meta.url).href)
 

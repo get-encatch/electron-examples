@@ -40,14 +40,6 @@ export function UserNav({ user, onOpenSettings, onGiveAppFeedback }: UserNavProp
             type="button"
             className="user-nav__menu-item"
             role="menuitem"
-            onClick={() => setOpen(false)}
-          >
-            Claude
-          </button>
-          <button
-            type="button"
-            className="user-nav__menu-item"
-            role="menuitem"
             onClick={() => {
               setOpen(false)
               onOpenSettings()

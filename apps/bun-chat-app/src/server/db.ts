@@ -3,7 +3,7 @@ import { join } from "node:path"
 import { mkdirSync } from "node:fs"
 import { Database } from "bun:sqlite"
 
-/** Mirrors apps/chat-app/src/main/db.ts, swapping Electron's userData path for a plain XDG-ish data dir. */
+/** Mirrors apps/electron-chat-app/src/main/db.ts, swapping Electron's userData path for a plain XDG-ish data dir. */
 export function openDatabase(): Database {
   const dataDir = join(homedir(), ".encatch-bun-chat-app")
   mkdirSync(dataDir, { recursive: true })

@@ -1,4 +1,4 @@
-appId: com.encatch.chat-app
+appId: com.encatch.electron-chat-app
 productName: Encatch
 directories:
   buildResources: build

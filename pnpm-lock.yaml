@@ -52,7 +52,7 @@ importers:
         specifier: ^7.0.2
         version: 7.0.2
 
-  apps/chat-app:
+  apps/electron-chat-app:
     dependencies:
       '@electron-toolkit/preload':
         specifier: ^3.0.2

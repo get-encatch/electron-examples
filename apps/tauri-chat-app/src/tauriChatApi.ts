@@ -3,7 +3,7 @@ import type { ChatApi, FeedbackInput } from "@encatch/core"
 
 /**
  * Implements the shared ChatApi contract over Tauri's invoke() bridge.
- * This is the Tauri analogue of apps/chat-app/src/preload/index.ts and
+ * This is the Tauri analogue of apps/electron-chat-app/src/preload/index.ts and
  * apps/bun-chat-app/src/client/httpChatApi.ts — same contract, different transport.
  */
 export const tauriChatApi: ChatApi = {

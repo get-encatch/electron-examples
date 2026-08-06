@@ -2,7 +2,7 @@ use std::path::Path;
 
 use rusqlite::Connection;
 
-/// Mirrors apps/chat-app/src/main/db.ts and apps/bun-chat-app/src/server/db.ts —
+/// Mirrors apps/electron-chat-app/src/main/db.ts and apps/bun-chat-app/src/server/db.ts —
 /// same schema and migration shape, just opened via rusqlite instead of a JS driver.
 pub fn open_database(data_dir: &Path) -> Connection {
     std::fs::create_dir_all(data_dir).expect("failed to create app data directory");
