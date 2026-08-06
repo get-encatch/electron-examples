@@ -17,6 +17,20 @@ async function handle(fn: () => Promise<unknown>): Promise<Response> {
   }
 }
 
+function clientEnv(): Response {
+  const env = {
+    VITE_ENCATCH_PUBLISHABLE_KEY: process.env.VITE_ENCATCH_PUBLISHABLE_KEY,
+    VITE_ENCATCH_FORM_ID: process.env.VITE_ENCATCH_FORM_ID,
+    VITE_ENCATCH_API_BASE_URL: process.env.VITE_ENCATCH_API_BASE_URL
+  }
+
+  return json(env, {
+    headers: {
+      "Cache-Control": "no-store"
+    }
+  })
+}
+
 /**
  * Starts the Bun.serve backend shared by both the browser shell (src/server/index.ts) and
  * the desktop shell (src/desktop/*) — same REST API and static homepage either way.
@@ -28,6 +42,7 @@ export function startServer(port: number): Server<undefined> {
   return Bun.serve({
     routes: {
       "/": homepage,
+      "/api/client-env": clientEnv(),
 
       "/api/nav-user": {
         GET: () => handle(() => chatApi.getNavUser())
